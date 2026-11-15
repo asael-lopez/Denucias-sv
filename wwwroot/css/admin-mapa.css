@@ -1,0 +1,87 @@
+
+
+
+
+
+.map-page-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.map-legend { display: flex; gap: 16px; color: var(--muted); font-size: 12px; }
+.map-legend span { display: flex; align-items: center; gap: 6px; }
+
+
+.map-toolbar {
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr 190px 190px auto;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.map-toolbar .field { gap: 0; }
+
+.heat-toggle { display: flex; align-items: center; padding: 0 10px; }
+.heat-toggle input { width: 18px; height: 18px; accent-color: var(--navy); }
+.heat-toggle span {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  margin-left: 7px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+
+.admin-map-wrap { position: relative; height: calc(100vh - 240px); min-height: 500px; }
+.admin-map-wrap .map-large { height: 100%; }
+.admin-map-wrap .leaflet-map { min-height: 500px; background-image: none; }
+.admin-map-wrap .leaflet-map .map-road,
+.admin-map-wrap .leaflet-map .map-label,
+.admin-map-wrap .leaflet-map .map-marker { display: none; }
+.admin-map-wrap .leaflet-map .map-zoom { z-index: 1000; }
+.map-float { z-index: 700; }
+
+.map-float {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  padding: 16px;
+  display: grid;
+  min-width: 180px;
+}
+.map-float > strong { font-size: 28px; color: var(--navy); }
+.map-float > span { color: var(--muted); }
+.map-float hr { width: 100%; border: 0; border-top: 1px solid var(--line); }
+.map-float div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 3px 0;
+}
+
+
+@media (max-width: 700px) {
+  .map-page-head { display: block; }
+  .map-legend { flex-wrap: wrap; margin-top: 13px; }
+  .map-toolbar { grid-template-columns: 1fr auto; }
+  .map-toolbar > .field { display: none; }
+  .heat-toggle span { font-size: 0; }
+  .heat-toggle span .icon { width: 22px; height: 22px; }
+  .admin-map-wrap { height: calc(100vh - 265px); min-height: 450px; }
+  .map-float {
+    left: 10px;
+    right: 10px;
+    top: auto;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+  }
+  .map-float > strong { font-size: 20px; }
+  .map-float hr, .map-float div { display: none; }
+}

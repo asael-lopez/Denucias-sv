@@ -1,0 +1,39 @@
+/* ============================================================
+   admin-usuarios.css
+   Gestión de usuarios administradores y sus áreas asignadas.
+   ============================================================ */
+
+/* Distribución: formulario de creación a la izquierda, lista a la derecha. */
+.users-layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+/* Tarjeta del formulario. */
+.user-form-card { padding: 22px; }
+.user-form-card .title-2 { margin-bottom: 6px; }
+.user-form-hint { color: var(--muted); font-size: 12px; margin-bottom: 18px; }
+.user-form-card .field { margin-bottom: 15px; }
+.user-form-card .notice { margin-bottom: 14px; }
+
+/* Tabla de usuarios: usuario, DUI, área y acción. */
+.admin-usuarios-page .admin-table-head,
+.admin-usuarios-page .admin-table article {
+  grid-template-columns: 1.4fr 1fr 1.3fr auto;
+}
+.admin-usuarios-page .admin-table article strong { color: var(--navy); }
+
+@media (max-width: 1000px) {
+  .users-layout { grid-template-columns: 1fr; }
+  .admin-usuarios-page .admin-table-head,
+  .admin-usuarios-page .admin-table article {
+    grid-template-columns: 1.3fr 1fr 1.1fr auto;
+  }
+  /* La columna del área debe seguir visible en esta vista. */
+  .admin-usuarios-page .admin-table-head > :nth-child(3),
+  .admin-usuarios-page .admin-table article > :nth-child(3) {
+    display: flex;
+  }
+}

@@ -1,0 +1,17 @@
+/* ============================================================
+   admin-crear-denuncia.css
+   Adapta el formulario ciudadano al layout del shell admin
+   ============================================================ */
+
+/* El admin-main ya tiene padding, el formulario no necesita
+   el citizen-main que lo centra con max-width propio */
+.admin-crear-main .page-heading { margin-bottom: 24px; }
+.admin-crear-main .progress     { margin-bottom: 28px; }
+
+/* El create-layout ya maneja su propio grid; solo limitamos el ancho
+   para que no se extienda demasiado en pantallas grandes */
+.admin-crear-main .create-layout { max-width: 1100px; }
+
+/* En la versión admin el "Cancelar" lleva al panel, no a home */
+.admin-crear-main .back-link { color: var(--muted); text-decoration: none; }
+.admin-crear-main .back-link:hover { color: var(--navy); }

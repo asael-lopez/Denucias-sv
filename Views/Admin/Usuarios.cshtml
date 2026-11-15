@@ -1,0 +1,122 @@
+@model AdminUsuariosViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Usuarios y áreas";
+    ViewData["Active"] = "usuarios";
+    ViewData["BodyClass"] = "admin-usuarios-page";
+}
+@section Styles {
+  <link rel="stylesheet" href="~/css/admin-usuarios.css">
+}
+<main class="admin-main">
+
+      <div class="admin-heading">
+        <div>
+          <p class="eyebrow">CUENTAS INTERNAS</p>
+          <h1 class="title title-1">Usuarios y áreas</h1>
+          <p>Crea administradores y asígnales el área que atenderán.</p>
+        </div>
+      </div>
+
+      <div class="users-layout">
+
+        <section class="card user-form-card">
+          <h2 class="title title-2">Nuevo administrador</h2>
+          <p class="user-form-hint">Cada usuario verá únicamente las denuncias del área que le asignes.</p>
+
+          <form class="auth-form" asp-controller="Admin" asp-action="Usuarios" method="post" autocomplete="off">
+            @if (!string.IsNullOrEmpty(Model.Error))
+            {
+              <p class="notice notice-error" role="alert"><span>@Model.Error</span></p>
+            }
+
+            <label class="field">
+              <span>Nombre completo</span>
+              <div class="input-wrap">
+                <input type="text" name="nombre" value="@Model.Nombre" placeholder="Ej. Ana Martínez" maxlength="120" required>
+              </div>
+            </label>
+
+            <label class="field">
+              <span>DUI</span>
+              <div class="input-wrap">
+                <input type="text" name="dui" value="@Model.Dui" data-dui-input placeholder="00000000-0" inputmode="numeric" pattern="[0-9]{8}-[0-9]" maxlength="10" required>
+              </div>
+            </label>
+
+            <label class="field">
+              <span>Contraseña</span>
+              <div class="input-wrap">
+                <input type="password" name="password" placeholder="Entre 12 y 72 caracteres" autocomplete="new-password" minlength="12" maxlength="72" required>
+              </div>
+            </label>
+
+            <label class="field select-field">
+              <span>Área asignada</span>
+              <div class="input-wrap">
+                <select name="categoria" required>
+                  <option value="">Selecciona un área</option>
+                  @foreach (var cat in CategoriasDenuncia.Todas)
+                  {
+                    <option value="@cat" selected="@(Model.Categoria == cat)">@cat</option>
+                  }
+                </select>
+              </div>
+            </label>
+
+            @if (!string.IsNullOrEmpty(Model.Exito))
+            {
+              <p class="notice notice-success" role="status"><span>@Model.Exito</span></p>
+            }
+
+            <button type="submit" class="btn btn-primary full"><span>Crear usuario</span></button>
+          </form>
+        </section>
+
+        <section class="admin-list card">
+          <div class="list-heading">
+            <div>
+              <h2 class="title title-2">Usuarios con acceso</h2>
+              <p>@Model.Administradores.Count administradores de área registrados</p>
+            </div>
+          </div>
+
+          <div class="admin-table">
+            <div class="admin-table-head">
+              <span>Usuario</span>
+              <span>DUI</span>
+              <span>Área</span>
+              <span></span>
+            </div>
+
+            <article>
+              <div><small class="mobile-label">USUARIO</small><strong>@Model.AdminGeneralNombre</strong></div>
+              <div><small class="mobile-label">DUI</small><span>@Model.AdminGeneralDui</span></div>
+              <div><small class="mobile-label">ÁREA</small><span class="badge badge-blue">Todas las áreas</span></div>
+              <span class="badge badge-gray">Cuenta general</span>
+            </article>
+
+            @foreach (var a in Model.Administradores)
+            {
+              <article>
+                <div><small class="mobile-label">USUARIO</small><strong>@a.NombreCompleto</strong></div>
+                <div><small class="mobile-label">DUI</small><span>@a.Dui</span></div>
+                <div><small class="mobile-label">ÁREA</small><span class="badge badge-blue">@a.Categoria</span></div>
+                <form asp-controller="Admin" asp-action="EliminarUsuario" method="post"
+                      onsubmit="return confirm('¿Eliminar este usuario?');">
+                  <input type="hidden" name="id" value="@a.Id" />
+                  <button type="submit" class="btn btn-secondary"><span>Eliminar</span></button>
+                </form>
+              </article>
+            }
+          </div>
+
+          @if (Model.Administradores.Count == 0)
+          {
+            <p>Todavía no has creado administradores de área.</p>
+          }
+        </section>
+
+      </div>
+
+</main>

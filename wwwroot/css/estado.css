@@ -1,0 +1,92 @@
+
+
+
+
+
+.status-heading { max-width: 100%; }
+.status-heading .heading-row { margin-top: 5px; }
+
+
+.status-layout { display: grid; grid-template-columns: 1.2fr .8fr; gap: 22px; }
+
+.tracking, .case-detail { padding: 26px; }
+.tracking > p { font-size: 13px; margin-top: 5px; }
+.tracking [data-case-result] { display: block; margin-top: 20px; }
+.tracking [data-case-result] p { margin: 8px 0 0; }
+
+
+.timeline { margin-top: 24px; }
+.timeline > div {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 13px;
+  position: relative;
+  min-height: 105px;
+}
+.timeline > div:not(:last-child):before {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: calc(100% - 28px);
+  background: var(--line);
+  left: 16px;
+  top: 32px;
+}
+.timeline > div.done:before { background: var(--green); }
+.timeline > div > span {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  background: var(--white);
+  color: #a5afbd;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  z-index: 1;
+}
+.timeline > div.done > span {
+  background: var(--green);
+  color: var(--white);
+  border-color: var(--green);
+}
+.timeline > div.active > span { border-color: var(--orange); }
+.timeline > div.active > span i {
+  width: 10px;
+  height: 10px;
+  background: var(--orange);
+  border-radius: 50%;
+}
+.timeline p, .timeline small { display: block; color: var(--muted); font-size: 13px; }
+.timeline small { margin-top: 5px; font-size: 11px; }
+
+
+.case-detail .case-image {
+  height: 190px;
+  margin: -26px -26px 20px;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+}
+.case-detail .case-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.case-detail > p { margin: 8px 0 18px; }
+.case-detail .map-view { min-height: 145px; }
+.case-detail .leaflet-map {
+  height: 210px;
+  min-height: 210px;
+  margin-top: 16px;
+  background-image: none;
+}
+.leaflet-map .map-zoom { z-index: 1000; }
+.location-coordinate-note {
+  display: block;
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+
+@media (max-width: 700px) {
+  .status-heading .heading-row { align-items: flex-start; flex-direction: column; }
+  .status-layout { grid-template-columns: 1fr; }
+  .tracking, .case-detail { padding: 20px; }
+  .case-detail .case-image { margin: -20px -20px 20px; }
+}

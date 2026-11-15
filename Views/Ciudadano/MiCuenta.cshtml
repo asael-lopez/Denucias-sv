@@ -1,0 +1,125 @@
+@model MiCuentaViewModel
+@{
+    ViewData["Title"] = "Mi cuenta";
+    ViewData["Nav"] = "";
+}
+@section Styles {
+  <link rel="stylesheet" href="~/css/mi-cuenta.css">
+}
+<main class="citizen-main">
+
+    <div class="page-heading">
+      <a class="back-link" href="/home">Volver al inicio</a>
+      <p class="eyebrow">MI PORTAL CIUDADANO</p>
+      <h1 class="title title-1">Mi cuenta</h1>
+      <p>Información personal y datos de tu cuenta registrada.</p>
+    </div>
+
+    <div class="cuenta-layout">
+
+      <aside class="cuenta-sidebar">
+        <div class="card perfil-card">
+          <div class="perfil-avatar-wrap">
+            <div class="perfil-avatar">@User.Iniciales()</div>
+          </div>
+          <div class="perfil-name">
+            <strong>@Model.NombreCompleto</strong>
+            <span class="badge badge-green"><i></i>Cuenta activa</span>
+          </div>
+          <div class="perfil-meta">
+            <span>Ciudadano registrado</span>
+            <span>Desde @Model.FechaCreacion.ToLocalTime().ToString("MMMM yyyy", new System.Globalization.CultureInfo("es-SV"))</span>
+          </div>
+        </div>
+
+        <nav class="cuenta-nav card">
+          <a class="cuenta-nav-item active" href="#datos-personales">Datos personales</a>
+          <a class="cuenta-nav-item" href="#contacto">Contacto</a>
+          <a class="cuenta-nav-item" href="#seguridad">Seguridad</a>
+        </nav>
+      </aside>
+
+      <div class="cuenta-content">
+
+        <section class="card cuenta-section" id="datos-personales">
+          <div class="cuenta-section-head">
+            <div>
+              <h2 class="title title-3">Datos personales</h2>
+              <p>Tu información de identidad registrada en el sistema.</p>
+            </div>
+          </div>
+          @if (Model.Seccion == "datos" && !string.IsNullOrEmpty(Model.Exito)) { <div class="notice notice-success" role="status"><span>@Model.Exito</span></div> }
+          @if (Model.Seccion == "datos" && !string.IsNullOrEmpty(Model.Error)) { <div class="notice notice-error" role="alert"><span>@Model.Error</span></div> }
+
+          <div class="cuenta-fields">
+            <div class="cuenta-field">
+              <div class="cuenta-field-body">
+                <span class="cuenta-field-label">DUI</span>
+                <strong class="cuenta-field-value">@Model.Dui</strong>
+              </div>
+            </div>
+          </div>
+
+          <form class="auth-form" asp-controller="Ciudadano" asp-action="ActualizarPerfil" method="post" autocomplete="off">
+            <input type="hidden" name="seccion" value="datos" />
+            <input type="hidden" name="correo" value="@Model.Correo" />
+            <label class="field">
+              <span>Nombre completo</span>
+              <div class="input-wrap"><input type="text" name="nombreCompleto" value="@Model.NombreCompleto" maxlength="120" required></div>
+            </label>
+            <button type="submit" class="btn btn-primary"><span>Guardar nombre</span></button>
+          </form>
+        </section>
+
+        <section class="card cuenta-section" id="contacto">
+          <div class="cuenta-section-head">
+            <div>
+              <h2 class="title title-3">Información de contacto</h2>
+              <p>Datos para notificaciones y seguimiento de tus denuncias.</p>
+            </div>
+          </div>
+          @if (Model.Seccion == "contacto" && !string.IsNullOrEmpty(Model.Exito)) { <div class="notice notice-success" role="status"><span>@Model.Exito</span></div> }
+          @if (Model.Seccion == "contacto" && !string.IsNullOrEmpty(Model.Error)) { <div class="notice notice-error" role="alert"><span>@Model.Error</span></div> }
+
+          <form class="auth-form" asp-controller="Ciudadano" asp-action="ActualizarPerfil" method="post" autocomplete="off">
+            <input type="hidden" name="seccion" value="contacto" />
+            <input type="hidden" name="nombreCompleto" value="@Model.NombreCompleto" />
+            <label class="field">
+              <span>Correo electrónico</span>
+              <div class="input-wrap"><input type="email" name="correo" value="@Model.Correo" maxlength="254" required></div>
+            </label>
+            <button type="submit" class="btn btn-primary"><span>Guardar correo</span></button>
+          </form>
+        </section>
+
+        <section class="card cuenta-section" id="seguridad">
+          <div class="cuenta-section-head">
+            <div>
+              <h2 class="title title-3">Seguridad</h2>
+              <p>Cambia tu contraseña (entre 12 y 72 caracteres).</p>
+            </div>
+          </div>
+          @if (Model.Seccion == "seguridad" && !string.IsNullOrEmpty(Model.Exito)) { <div class="notice notice-success" role="status"><span>@Model.Exito</span></div> }
+          @if (Model.Seccion == "seguridad" && !string.IsNullOrEmpty(Model.Error)) { <div class="notice notice-error" role="alert"><span>@Model.Error</span></div> }
+
+          <form class="auth-form" asp-controller="Ciudadano" asp-action="CambiarPassword" method="post" autocomplete="off">
+            <label class="field">
+              <span>Contraseña actual</span>
+              <div class="input-wrap"><input type="password" name="actual" autocomplete="current-password" maxlength="72" required></div>
+            </label>
+            <label class="field">
+              <span>Nueva contraseña</span>
+              <div class="input-wrap"><input type="password" name="nueva" autocomplete="new-password" minlength="12" maxlength="72" required></div>
+            </label>
+            <label class="field">
+              <span>Confirmar nueva contraseña</span>
+              <div class="input-wrap"><input type="password" name="confirmar" autocomplete="new-password" minlength="12" maxlength="72" required></div>
+            </label>
+            <button type="submit" class="btn btn-primary"><span>Cambiar contraseña</span></button>
+          </form>
+        </section>
+
+      </div>
+    </div>
+
+</main>

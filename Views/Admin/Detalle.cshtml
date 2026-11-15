@@ -1,0 +1,180 @@
+@{ Layout = "_AdminLayout"; ViewData["Active"] = "denuncias"; }
+@{ ViewData["Title"] = "Detalle de denuncia"; }
+@section Styles {
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="~/css/admin-detalle.css">
+}
+<!-- ===== Contenido ===== -->
+    <main class="admin-main">
+
+      <!-- Encabezado -->
+      <div class="detail-top">
+        <a class="back-link" href="/admin-crear-denuncia">← Volver a denuncias</a>
+        <div class="heading-row">
+          <div>
+            <p class="eyebrow">DETALLE DE DENUNCIA</p>
+            <h1 class="title title-1" data-case-ticket></h1>
+            <p data-case-created></p>
+          </div>
+          <div>
+            <span class="badge" data-admin-case-priority-badge><i></i><span data-admin-case-priority-label></span></span>
+            <span class="badge" data-admin-case-status-badge><i></i><span data-admin-case-status-label></span></span>
+          </div>
+        </div>
+        <p class="notice notice-error" data-data-error role="alert" hidden></p>
+      </div>
+
+      <!-- Aviso de derivación (oculto al inicio) -->
+      <div class="notice notice-success derived-notice" data-derived-notice hidden>
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+        <span>Denuncia derivada a Mantenimiento Vial correctamente.</span>
+      </div>
+
+      <!-- Rejilla principal -->
+      <div class="detail-grid">
+
+        <!-- Columna principal -->
+        <div class="detail-content">
+
+          <!-- Evidencia -->
+          <section class="card evidence">
+            <div class="section-heading">
+              <h2 class="title title-2">Evidencia y descripción</h2>
+              <span class="badge badge-gray" data-case-type></span>
+            </div>
+              <div data-admin-case-photo-wrap hidden><img class="img-fallback" data-admin-case-photo alt="Evidencia del reporte"></div>
+              <p data-case-description></p>
+          </section>
+
+          <!-- Ubicación -->
+          <section class="card location-card">
+            <h2 class="title title-2">Ubicación</h2>
+
+            <div class="location-line">
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <span>
+                <strong data-admin-case-location></strong>
+                <small data-admin-case-reference></small>
+              </span>
+              <a class="location-route" data-admin-case-route href="#" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h3a3 3 0 0 0 3-3V9a3 3 0 0 1 3-3"/></svg>
+                Abrir ruta
+              </a>
+            </div>
+            <div class="map-view leaflet-map case-location-map" data-admin-case-map role="region" aria-label="Mapa de ubicación de la denuncia">
+              <div class="map-zoom" data-map-zoom>
+                <button type="button" data-map-zoom-in aria-label="Acercar mapa">+</button>
+                <button type="button" data-map-zoom-out aria-label="Alejar mapa">−</button>
+              </div>
+            </div>
+            <small class="location-coordinate-note" data-admin-case-coordinate-note></small>
+          </section>
+
+          <!-- Historial de cambios -->
+          <section class="card history">
+            <h2 class="title title-2">Historial de cambios</h2>
+
+            <div data-admin-case-history></div>
+          </section>
+
+        </div>
+
+        <!-- Columna lateral -->
+        <aside class="detail-sidebar">
+
+          <!-- Datos del ciudadano -->
+          <section class="card citizen-data">
+            <h2 class="title title-2">Datos del ciudadano</h2>
+            <div class="person-row">
+              <span class="avatar" data-case-citizen-initials></span>
+              <div><strong data-case-citizen-name></strong><small>Cuenta local</small></div>
+            </div>
+            <dl>
+              <div><dt>DUI</dt><dd data-case-citizen-dui></dd></div>
+              <div><dt>Correo</dt><dd>—</dd></div>
+              <div><dt>Fecha del reporte</dt><dd data-case-created-short></dd></div>
+            </dl>
+          </section>
+
+          <!-- Gestión del caso -->
+          <section class="card management">
+            <h2 class="title title-2">Gestión del caso</h2>
+
+            <label class="field select-field">
+              <span>Prioridad</span>
+              <div class="input-wrap">
+                <select data-admin-case-priority>
+                  <option>Común</option>
+                  <option>Urgente</option>
+                  <option>Súper urgente</option>
+                </select>
+                <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+              </div>
+            </label>
+
+            <label class="field select-field">
+              <span>Estado</span>
+              <div class="input-wrap">
+                <select data-admin-case-status>
+                  <option>Recibido</option>
+                  <option>En proceso</option>
+                  <option>Enviado a Alcaldía</option>
+                  <option>Finalizado</option>
+                </select>
+                <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+              </div>
+            </label>
+
+            <div class="divider"></div>
+
+            <label class="field select-field">
+              <span>Departamento destino</span>
+              <div class="input-wrap">
+                <select data-admin-case-department>
+                  <option value="">Sin asignar</option>
+                  <option>Mantenimiento Vial</option>
+                  <option>Desechos sólidos</option>
+                  <option>Alumbrado público</option>
+                  <option>Chapoda y Áreas Verdes</option>
+                </select>
+                <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+              </div>
+            </label>
+
+            <label class="field" data-admin-case-result-field>
+              <span>Resultado de la atención</span>
+              <textarea data-admin-case-result maxlength="500" placeholder="Describe qué se resolvió"></textarea>
+            </label>
+
+            <p class="notice notice-error" data-admin-case-error role="alert" hidden></p>
+            <p class="notice notice-success" data-admin-case-saved hidden>Cambios guardados y visibles para el ciudadano.</p>
+
+            <button type="button" class="btn btn-secondary full" data-download-pdf>
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Descargar PDF</span>
+            </button>
+
+            <button type="button" class="btn btn-primary full" data-derive-case>
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V7l8-4 8 4v14M9 21v-4h6v4"/><path d="M8 9h1M15 9h1M8 13h1M15 13h1"/></svg>
+              <span>Derivar a Alcaldía</span>
+            </button>
+            <button type="button" class="btn btn-secondary full" data-save-case><span>Guardar cambios</span></button>
+
+            <p class="notification-hint">
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              <span>Los cambios se guardan en este navegador y aparecen en el seguimiento ciudadano.</span>
+            </p>
+          </section>
+
+        </aside>
+
+      </div>
+
+    </main>
+
+@section Scripts {
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="~/js/pdf-report.js"></script>
+  <script src="~/js/local-complaints.js"></script>
+}

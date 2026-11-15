@@ -1,0 +1,33 @@
+
+
+
+
+
+.reports-title .heading-row { align-items: flex-end; }
+.reports-table article > div:nth-child(2) strong { color: #000; }
+.reports-table .badge-blue { color: #000; }
+
+
+.filters {
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 1fr 220px 220px;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+[data-citizen-reports-empty] { padding: 18px; color: var(--muted); }
+.reports-table [data-report-result] {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+  white-space: normal;
+}
+
+
+@media (max-width: 700px) {
+  .reports-title .heading-row { display: block; }
+  .reports-title .btn { width: 100%; margin-top: 18px; }
+  .filters { grid-template-columns: 1fr; }
+}

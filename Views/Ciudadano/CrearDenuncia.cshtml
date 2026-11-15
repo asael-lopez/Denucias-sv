@@ -1,0 +1,222 @@
+@using SistemasDenuncias.Helpers
+@{ ViewData["Nav"] = "crear"; }
+@{ ViewData["Title"] = "Nueva denuncia"; }
+@section Styles {
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="~/css/crear-denuncia.css">
+}
+<main class="citizen-main">
+
+    <!-- ===== Encabezado ===== -->
+    <div class="page-heading">
+      <a class="back-link" href="/home" data-prev>← Volver</a>
+      <p class="eyebrow">NUEVA DENUNCIA</p>
+      <h1 class="title title-1">Cuéntanos qué está pasando</h1>
+      <p>Solo te tomará unos minutos. Los campos marcados son obligatorios.</p>
+    </div>
+
+    <!-- ===== Barra de progreso ===== -->
+    <div class="progress">
+      <div class="progress-track"><span data-progress-bar></span></div>
+
+      <div data-step-dot>
+        <i>
+          <span data-dot-index>1</span>
+          <svg data-dot-check hidden class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+        </i>
+        <span>Fotografía</span>
+      </div>
+
+      <div data-step-dot>
+        <i>
+          <span data-dot-index>2</span>
+          <svg data-dot-check hidden class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+        </i>
+        <span>Detalles</span>
+      </div>
+
+      <div data-step-dot>
+        <i>
+          <span data-dot-index>3</span>
+          <svg data-dot-check hidden class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+        </i>
+        <span>Ubicación</span>
+      </div>
+    </div>
+
+    <!-- ===== Formulario por pasos ===== -->
+    <div class="create-layout">
+      <section class="form-card card">
+        <p class="notice notice-error" data-complaint-error role="alert" hidden></p>
+
+        <!-- Paso 1: Fotografía -->
+        <div data-step="1">
+          <div class="step-title">
+            <span>1</span>
+            <div>
+              <h2 class="title title-2">Agrega una fotografía</h2>
+              <p>Nos ayudará a identificar y atender mejor el problema.</p>
+            </div>
+          </div>
+
+          <div class="upload-zone">
+            <span class="upload-icon">
+              <svg class="icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h3l2-3h6l2 3h3a2 2 0 0 1 2 2v10H2V9a2 2 0 0 1 2-2"/><circle cx="12" cy="13" r="4"/></svg>
+            </span>
+            <strong>Toma una foto o súbela</strong>
+            <p>Formatos JPG o PNG · Máximo 10 MB</p>
+            <input type="file" accept="image/*" hidden data-photo-input>
+            <button type="button" class="btn btn-secondary" data-photo-button>
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h3l2-3h6l2 3h3a2 2 0 0 1 2 2v10H2V9a2 2 0 0 1 2-2"/><circle cx="12" cy="13" r="4"/></svg>
+              <span data-photo-button-label>Seleccionar fotografía</span>
+            </button>
+            <div class="photo-upload-status" data-photo-status role="status" aria-live="polite" hidden>
+              <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path data-photo-status-icon d="m5 12 4 4L19 6"/></svg>
+              <span><strong data-photo-status-label>Fotografía cargada</strong><small data-photo-name></small></span>
+            </div>
+          </div>
+
+          <div class="tip">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 18h.01"/></svg>
+            <span>Procura que el problema se vea con claridad y evita fotografiar rostros.</span>
+          </div>
+        </div>
+
+        <!-- Paso 2: Detalles -->
+        <div data-step="2" hidden>
+          <div class="step-title">
+            <span>2</span>
+            <div>
+              <h2 class="title title-2">Describe el problema</h2>
+              <p>Selecciona una categoría y agrega los detalles importantes.</p>
+            </div>
+          </div>
+
+          <label class="field">
+            <span>Tipo de incidente</span>
+            <div class="input-wrap">
+              <select data-complaint-type required>
+                <option>Bacheo</option>
+                <option>Desechos sólidos</option>
+                <option>Chapoda y Áreas Verdes</option>
+                <option>Obstrucción de vía</option>
+                <option>Luminaria dañada</option>
+                <option>Otro</option>
+              </select>
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Descripción</span>
+            <textarea data-counter data-complaint-description maxlength="500" required placeholder="Ej. Hay un bache grande que dificulta el paso de vehículos..."></textarea>
+            <small class="counter" data-counter-output>0 / 500</small>
+          </label>
+
+          <div class="photo-preview" data-photo-preview-card hidden>
+            <img data-photo-preview alt="Fotografía seleccionada">
+            <div>
+              <strong>Fotografía adjunta</strong>
+              <small data-photo-meta></small>
+            </div>
+            <button type="button" aria-label="Cambiar fotografía" data-photo-edit>
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14 5 5 5L8 21H3v-5z"/><path d="m13 6 5 5"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Paso 3: Ubicación -->
+        <div data-step="3" hidden>
+          <div class="step-title">
+            <span>3</span>
+            <div>
+              <h2 class="title title-2">Confirma la ubicación</h2>
+              <p>Ajusta el pin si es necesario.</p>
+            </div>
+          </div>
+
+          <!-- Mapa pequeño (solo móvil) -->
+          <div class="mobile-map">
+            <div class="map-view leaflet-map" data-complaint-map role="region" aria-label="Mapa para seleccionar la ubicación de la denuncia">
+              <div class="map-zoom" data-map-zoom>
+                <button type="button" data-map-zoom-in aria-label="Acercar mapa">+</button>
+                <button type="button" data-map-zoom-out aria-label="Alejar mapa">−</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="gps-found">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+            <span>
+              <strong data-location-title>Ubicación de referencia</strong>
+              <small data-location-description>Arrastra el pin o selecciona un punto del mapa.</small>
+            </span>
+            <button class="btn btn-secondary" type="button" data-use-location>Usar mi ubicación</button>
+          </div>
+          <input type="hidden" data-complaint-latitude>
+          <input type="hidden" data-complaint-longitude>
+          <input type="hidden" data-complaint-location-source value="reference">
+          <input type="hidden" data-complaint-location-accuracy>
+
+          <label class="field">
+            <span>Dirección exacta</span>
+            <div class="input-wrap">
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <input type="text" data-complaint-location value="Final Calle La Campana, Col. Las Margaritas" maxlength="180" required>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Referencia (opcional)</span>
+            <div class="input-wrap">
+              <input type="text" data-complaint-reference maxlength="180" placeholder="Ej. Frente a la cancha comunal">
+            </div>
+          </label>
+
+          <button type="button" class="btn btn-primary full desktop-submit" data-submit-complaint>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m14 7 5 5-5 5"/></svg>
+            <span>Enviar denuncia</span>
+          </button>
+        </div>
+
+        <!-- Pie del formulario -->
+        <div class="form-actions">
+          <a class="btn btn-ghost" href="/home" data-prev data-step-actions="1,2">Cancelar</a>
+          <button type="button" class="btn btn-primary" data-next data-step-actions="1,2">
+            <span>Continuar</span>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m14 7 5 5-5 5"/></svg>
+          </button>
+          <button type="button" class="btn btn-primary full mobile-submit" data-submit-complaint data-step-actions="3" hidden>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m14 7 5 5-5 5"/></svg>
+            <span>Enviar denuncia</span>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- Mapa lateral (solo escritorio, paso 3) -->
+      <aside class="desktop-map">
+        <div class="map-view map-large leaflet-map" data-complaint-map role="region" aria-label="Mapa para seleccionar la ubicación de la denuncia">
+          <div class="map-zoom" data-map-zoom>
+            <button type="button" data-map-zoom-in aria-label="Acercar mapa">+</button>
+            <button type="button" data-map-zoom-out aria-label="Alejar mapa">−</button>
+          </div>
+          <div class="map-caption">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <div>
+              <strong>Ubicación del reporte</strong>
+              <span data-location-address>Final Calle La Campana, Col. Las Margaritas</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+  </main>
+
+@section Scripts {
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="~/js/pdf-report.js"></script>
+  <script src="~/js/local-complaints.js"></script>
+}

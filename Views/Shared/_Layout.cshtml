@@ -1,0 +1,83 @@
+@using SistemasDenuncias.Helpers
+@{
+    string Nav(string k) => (ViewData["Nav"] as string) == k ? "active" : "";
+}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@ViewData["Title"] · Sistema de Denuncias Ciudadanas | Soyapango</title>
+  <link rel="icon" href="~/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="~/css/base.css">
+  <link rel="stylesheet" href="~/css/componentes.css">
+  <link rel="stylesheet" href="~/css/server.css">
+  @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+
+  <!-- Sesión real (cookie del servidor) expuesta al JavaScript del portal -->
+  <span hidden
+        data-portal-session
+        data-role="citizen"
+        data-dui="@(User.FindFirst("dui")?.Value)"
+        data-name="@(User.NombreCompleto())"></span>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="logo">
+        <div class="logo-mark"><img src="~/img/valk.png" alt="Valksoya" class="logo-img"></div>
+        <div><strong>SOYAPANGO</strong><small>Alcaldía Municipal</small></div>
+      </div>
+      <nav>
+        <a class="@Nav("home")" href="/home">Inicio</a>
+        <a class="@Nav("crear")" href="/crear-denuncia">Nueva denuncia</a>
+        <a class="@Nav("mis")" href="/mis-denuncias">Mis denuncias</a>
+      </nav>
+      <div class="user-menu" data-user-menu>
+        <button type="button" class="user-button" data-user-menu-toggle aria-haspopup="true" aria-expanded="false">
+          <span>@User.NombreCompleto()</span>
+          <span class="avatar">@User.Iniciales()</span>
+        </button>
+        <div class="user-dropdown" data-user-dropdown hidden>
+          <a class="user-dropdown-item" href="/mi-cuenta">
+            <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            Mi cuenta
+          </a>
+          <div class="user-dropdown-divider"></div>
+          <form asp-controller="Account" asp-action="Logout" method="post" class="logout-form"><button type="submit" class="user-dropdown-item user-dropdown-logout">
+            <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Cerrar sesión
+          </button></form>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  @RenderBody()
+
+  <!-- ===== Navegación móvil ===== -->
+  <nav class="mobile-nav">
+    <a href="/home">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+      <span>Inicio</span>
+    </a>
+    <a href="/crear-denuncia">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+      <span>Nueva denuncia</span>
+    </a>
+    <a href="/mis-denuncias">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h9l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+      <span>Mis denuncias</span>
+    </a>
+    <a href="/mi-cuenta">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span>Perfil</span>
+    </a>
+  </nav>
+
+  <script src="~/js/main.js"></script>
+  <script src="~/js/server-ui.js"></script>
+  @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

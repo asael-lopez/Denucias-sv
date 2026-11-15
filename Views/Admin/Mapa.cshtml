@@ -1,0 +1,85 @@
+@{ Layout = "_AdminLayout"; ViewData["Active"] = "mapa"; }
+@{ ViewData["Title"] = "Mapa de denuncias"; }
+@section Styles {
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="~/css/admin-mapa.css">
+}
+<!-- ===== Contenido ===== -->
+    <main class="admin-main">
+
+      <!-- Encabezado -->
+      <div class="map-page-head">
+        <div>
+          <p class="eyebrow">VISTA TERRITORIAL</p>
+          <h1 class="title title-1">Mapa de denuncias</h1>
+          <p>Visualiza la concentración y prioridad de reportes activos.</p>
+        </div>
+        <div class="map-legend">
+          <span><i class="dot red"></i>Súper urgente</span>
+          <span><i class="dot orange"></i>Urgente</span>
+          <span><i class="dot blue"></i>Común</span>
+        </div>
+      </div>
+
+      <!-- Barra de herramientas -->
+      <div class="map-toolbar card">
+        <div class="filter-search">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <input type="search" placeholder="Buscar colonia o dirección" data-admin-map-search>
+        </div>
+
+        <label class="field">
+          <div class="input-wrap">
+            <select data-admin-map-type>
+              <option value="">Todos los tipos</option>
+            </select>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </label>
+
+        <label class="field">
+          <div class="input-wrap">
+            <select data-admin-map-priority>
+              <option value="">Todas las prioridades</option>
+              <option value="Súper urgente">Súper urgentes</option>
+              <option value="Urgente">Urgentes</option>
+              <option value="Común">Comunes</option>
+            </select>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </label>
+
+        <label class="heat-toggle">
+          <input type="checkbox">
+          <span>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 12 10 5 10-5M2 17l10 5 10-5"/></svg>
+            Zonas con más reportes
+          </span>
+        </label>
+      </div>
+
+      <!-- Mapa -->
+      <section class="admin-map-wrap">
+        <div class="map-view map-large leaflet-map" data-admin-map role="region" aria-label="Mapa territorial de denuncias">
+          <div class="map-zoom" data-map-zoom>
+            <button type="button" data-map-zoom-in aria-label="Acercar mapa">+</button>
+            <button type="button" data-map-zoom-out aria-label="Alejar mapa">−</button>
+          </div>
+        </div>
+
+        <!-- Resumen flotante -->
+        <div class="map-float card">
+          <strong data-map-total>0</strong>
+          <span>reportes totales</span>
+          <hr>
+          <div><span class="dot red"></span><span data-map-urgent>0</span> súper urgentes</div>
+          <div><span class="dot orange"></span><span data-map-progress>0</span> en proceso</div>
+        </div>
+      </section>
+
+    </main>
+
+@section Scripts {
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="~/js/local-complaints.js"></script>
+}

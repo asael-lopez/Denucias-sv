@@ -1,0 +1,112 @@
+@using SistemasDenuncias.Helpers
+@{ ViewData["Nav"] = "mis"; }
+@{ ViewData["Title"] = "Mis denuncias"; }
+@section Styles {
+  <link rel="stylesheet" href="~/css/mis-denuncias.css">
+}
+<main class="citizen-main">
+
+    <!-- ===== Encabezado ===== -->
+    <div class="page-heading reports-title">
+      <p class="eyebrow">MI ACTIVIDAD</p>
+      <div class="heading-row">
+        <div>
+          <h1 class="title title-1">Mis denuncias</h1>
+          <p>Consulta y da seguimiento a todos tus reportes.</p>
+        </div>
+        <a class="btn btn-primary" href="/crear-denuncia">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+          <span>Nueva denuncia</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ===== Filtros ===== -->
+    <div class="filters card">
+      <div class="filter-search">
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input type="search" data-citizen-report-search placeholder="Buscar por ticket...">
+      </div>
+
+      <label class="field">
+        <div class="input-wrap">
+          <select data-citizen-status-filter>
+            <option value="">Todos los estados</option>
+            <option value="Recibido">Recibido</option>
+            <option value="En proceso">En proceso</option>
+            <option value="Enviado a Alcaldía">Enviado a Alcaldía</option>
+            <option value="Finalizado">Finalizado</option>
+          </select>
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </label>
+
+      <label class="field">
+        <div class="input-wrap">
+          <select data-citizen-type-filter>
+            <option value="">Todos los tipos</option>
+          </select>
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </label>
+    </div>
+
+    <!-- ===== Tabla de denuncias ===== -->
+    <section class="reports-table card">
+      <div class="table-head">
+        <span>Ticket</span>
+        <span>Tipo de incidente</span>
+        <span>Fecha</span>
+        <span>Ubicación</span>
+        <span>Estado</span>
+        <span></span>
+      </div>
+
+      <template data-citizen-report-template>
+        <article>
+          <div>
+            <small class="mobile-label">TICKET</small>
+            <strong data-report-ticket></strong>
+          </div>
+          <div>
+            <span class="incident-icon">
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h9l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+            </span>
+            <strong data-report-type></strong>
+          </div>
+          <div>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+            <span data-report-date></span>
+          </div>
+          <div>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <span>
+              <span data-report-location></span>
+              <small data-report-result hidden></small>
+            </span>
+          </div>
+          <span class="badge" data-report-status><i></i><span data-report-status-label></span></span>
+          <div style="display:flex;gap:.5rem;align-items:center;">
+            <button type="button" class="btn btn-ghost" data-report-pdf aria-label="Descargar PDF">
+              <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span class="sr-only">PDF</span>
+            </button>
+            <a class="btn btn-ghost" data-report-link>
+              <span>Ver
+                <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+              </span>
+            </a>
+          </div>
+        </article>
+      </template>
+      <p data-citizen-reports-empty hidden>No hay denuncias que coincidan con los filtros.</p>
+      <p class="notice notice-error" data-data-error hidden></p>
+    </section>
+
+  </main>
+
+@section Scripts {
+  <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="~/js/pdf-report.js"></script>
+  <script src="~/js/local-complaints.js"></script>
+}

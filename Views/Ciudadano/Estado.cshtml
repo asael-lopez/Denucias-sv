@@ -1,0 +1,78 @@
+@using SistemasDenuncias.Helpers
+@{ ViewData["Nav"] = "mis"; }
+@{ ViewData["Title"] = "Seguimiento del ticket"; }
+@section Styles {
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="~/css/estado.css">
+}
+<main class="citizen-main">
+
+    <!-- ===== Encabezado del ticket ===== -->
+    <div class="page-heading status-heading">
+      <a class="back-link" href="/home">← Volver al inicio</a>
+      <p class="eyebrow">DETALLE DEL TICKET</p>
+      <p class="notice notice-error" data-case-error role="alert" hidden></p>
+      <div class="heading-row">
+        <div>
+          <h1 class="title title-1" data-case-ticket></h1>
+          <p data-case-created></p>
+        </div>
+        <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">
+          <span class="badge" data-case-status><i></i><span data-case-status-label></span></span>
+          <button type="button" class="btn btn-secondary" data-citizen-download-pdf>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Descargar PDF</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Seguimiento y detalle ===== -->
+    <div class="status-layout">
+
+      <!-- Línea de tiempo -->
+      <section class="card tracking">
+        <h2 class="title title-2">Seguimiento del caso</h2>
+        <p>Consulta cada avance de tu denuncia.</p>
+
+        <div class="timeline" data-case-timeline></div>
+        <div class="notice notice-success" data-case-result hidden>
+          <strong>Resultado de la atención</strong>
+          <p data-case-result-text></p>
+        </div>
+      </section>
+
+      <!-- Detalle del caso -->
+      <aside class="card case-detail">
+        <div class="case-image">
+          <img class="img-fallback" data-case-photo alt="Fotografía de la denuncia">
+        </div>
+        <h2 class="title title-3" data-case-type></h2>
+        <p data-case-description></p>
+
+        <div class="location-line">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <span>
+            <strong>Ubicación</strong>
+            <small data-case-location></small>
+          </span>
+        </div>
+        <div class="map-view leaflet-map case-location-map" data-case-location-map role="region" aria-label="Mapa de ubicación de la denuncia">
+          <div class="map-zoom" data-map-zoom>
+            <button type="button" data-map-zoom-in aria-label="Acercar mapa">+</button>
+            <button type="button" data-map-zoom-out aria-label="Alejar mapa">−</button>
+          </div>
+        </div>
+        <small class="location-coordinate-note" data-case-coordinate-note></small>
+      </aside>
+
+    </div>
+
+  </main>
+
+@section Scripts {
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="~/js/pdf-report.js"></script>
+  <script src="~/js/local-complaints.js"></script>
+}

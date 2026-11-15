@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>@ViewData["Title"] · Sistema de Denuncias Ciudadanas | Soyapango</title>
+  <link rel="icon" href="~/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="~/css/base.css">
+  <link rel="stylesheet" href="~/css/componentes.css">
+  <link rel="stylesheet" href="~/css/@(ViewData["Css"] ?? "index").css">
+  <link rel="stylesheet" href="~/css/server.css">
+</head>
+<body>
+  @RenderBody()
+
+  <script src="~/js/main.js"></script>
+  <script src="~/js/server-ui.js"></script>
+  @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

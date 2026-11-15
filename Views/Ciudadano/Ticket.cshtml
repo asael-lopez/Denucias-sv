@@ -1,0 +1,92 @@
+@using SistemasDenuncias.Helpers
+@{ ViewData["Nav"] = "mis"; }
+@{ ViewData["Title"] = "Denuncia enviada"; }
+@section Styles {
+  <link rel="stylesheet" href="~/css/ticket.css">
+}
+<main class="citizen-main">
+
+    <!-- ===== Confirmación de envío ===== -->
+    <section class="confirmation">
+      <span class="confirmation-icon">
+        <svg class="icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+      </span>
+      <p class="eyebrow success-text">DENUNCIA ENVIADA</p>
+      <h1 class="title title-1">¡Gracias por ayudarnos a mejorar Soyapango!</h1>
+      <p>Recibimos tu reporte correctamente. Guarda este número para consultar el avance.</p>
+      <p class="notice notice-error" data-ticket-error role="alert" hidden></p>
+
+      <!-- Número de ticket -->
+      <div class="ticket-number">
+        <small>NÚMERO DE TICKET</small>
+        <strong data-ticket-number></strong>
+        <button type="button" data-copy-ticket>
+          <svg class="icon icon-copy" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+          <svg class="icon icon-check" hidden width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+          <span data-copy-label>Copiar ticket</span>
+        </button>
+      </div>
+
+      <!-- Resumen de la denuncia -->
+      <article class="summary-card card">
+        <div class="summary-image">
+          <img class="img-fallback" data-ticket-photo alt="Fotografía de la denuncia">
+        </div>
+        <div>
+          <div>
+            <span class="badge" data-ticket-status><i></i><span data-ticket-status-label></span></span>
+            <span data-ticket-date></span>
+          </div>
+          <h2 class="title title-3" data-ticket-type></h2>
+          <p data-ticket-description></p>
+          <small>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0"/><circle cx="12" cy="10" r="2.5"/></svg>
+            <span data-ticket-location></span>
+          </small>
+        </div>
+      </article>
+
+      <!-- Nota de notificación -->
+      <div class="email-note">
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        <span>Consulta los cambios de estado desde Mis denuncias en este navegador.</span>
+      </div>
+
+      <!-- Acciones -->
+      <div class="confirmation-actions">
+        <a class="btn btn-secondary" href="/home"><span>Volver al inicio</span></a>
+        <button type="button" class="btn btn-secondary" data-download-ticket-pdf>
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Descargar comprobante PDF</span>
+        </button>
+        <a class="btn btn-primary" data-ticket-state-link>
+          <span>Ver estado</span>
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m14 7 5 5-5 5"/></svg>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+@section Scripts {
+  <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="~/js/pdf-report.js"></script>
+  <script src="~/js/local-complaints.js"></script>
+  <script>
+    (function () {
+      var btn = document.querySelector("[data-download-ticket-pdf]");
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var ticketParam = new URLSearchParams(window.location.search).get("ticket");
+        var REPORTS_KEY = "soyapango.localComplaints.v1";
+        try {
+          var reports = JSON.parse(localStorage.getItem(REPORTS_KEY) || "[]");
+          var report = reports.find(function (r) { return r.ticket === ticketParam; });
+          if (report && window.PdfReport) {
+            window.PdfReport.generate(report, "registro");
+          }
+        } catch (e) { console.error(e); }
+      });
+    })();
+  </script>
+}

@@ -1,0 +1,110 @@
+@using SistemasDenuncias.Helpers
+@{
+    string Act(string k) => (ViewData["Active"] as string) == k ? "active" : "";
+}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@ViewData["Title"] · Sistema de Denuncias Ciudadanas | Soyapango</title>
+  <link rel="icon" href="~/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="~/css/base.css">
+  <link rel="stylesheet" href="~/css/componentes.css">
+  <link rel="stylesheet" href="~/css/server.css">
+  @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="@ViewData["BodyClass"]">
+
+  <!-- Sesión real (cookie del servidor) expuesta al JavaScript del panel de administración -->
+  <span hidden
+        data-portal-session
+        data-role="admin"
+        data-dui="@(User.FindFirst("dui")?.Value)"
+        data-name="@(User.NombreCompleto())"
+        data-admin-role="@(User.IsInRole(Roles.AdminGeneral) ? "general" : "area")"
+        data-area="@(User.FindFirst("categoria")?.Value)"></span>
+
+  <div class="admin-shell">
+
+    <aside class="admin-sidebar">
+      <div class="logo">
+        <div class="logo-mark"><img src="~/img/valk.png" alt="Valksoya" class="logo-img"></div>
+        <div><strong>SOYAPANGO</strong><small>Alcaldía Municipal</small></div>
+      </div>
+
+      <nav>
+        <a class="@Act("dashboard")" href="/admin-dashboard">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span>Panel</span>
+        </a>
+        <a class="@Act("denuncias")" href="/admin-crear-denuncia">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h9l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+          <span>Denuncias</span>
+        </a>
+        <a class="@Act("mapa")" href="/admin-mapa">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/></svg>
+          <span>Mapa</span>
+        </a>
+        <a class="@Act("duplicados")" href="/admin-duplicados">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+          <span>Duplicados</span>
+          <b>3</b>
+        </a>
+        <a class="@Act("reportes")" href="/admin-reportes">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+          <span>Reportes</span>
+        </a>
+        @if (User.IsInRole("AdminGeneral"))
+        {
+          <a class="@Act("usuarios")" href="/admin-usuarios" >
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Usuarios</span>
+        </a>
+        }
+      </nav>
+
+      <!-- Usuario -->
+      <div class="sidebar-user">
+        <span class="avatar">@User.Iniciales()</span>
+        <div><strong>@User.NombreCompleto()</strong><small>@User.EtiquetaRol()</small></div>
+        <form asp-controller="Account" asp-action="AdminLogout" method="post" class="logout-form"><button type="submit" aria-label="Cerrar sesión">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3"/><path d="M14 3h7v18h-7"/></svg>
+        </button></form>
+      </div>
+    </aside>
+
+    <header class="admin-mobile-header">
+      <button type="button" data-menu-toggle aria-label="Abrir menú">
+        <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div class="logo">
+        <div class="logo-mark"><img src="~/img/valk.png" alt="Valksoya" class="logo-img"></div>
+      </div>
+      <strong>@ViewData["Title"]</strong>
+      <span class="avatar">@User.Iniciales()</span>
+
+      <!-- Menú desplegable -->
+      <div class="mobile-admin-menu" data-mobile-menu hidden>
+        <a class="@Act("dashboard")" href="/admin-dashboard">Panel</a>
+        <a class="@Act("denuncias")" href="/admin-crear-denuncia">Denuncias</a>
+        <a class="@Act("mapa")" href="/admin-mapa">Mapa</a>
+        <a class="@Act("duplicados")" href="/admin-duplicados">Duplicados</a>
+        <a class="@Act("reportes")" href="/admin-reportes">Reportes</a>
+        @if (User.IsInRole("AdminGeneral"))
+        {
+          <a class="@Act("usuarios")" href="/admin-usuarios" >Usuarios</a>
+        }
+        <form asp-controller="Account" asp-action="AdminLogout" method="post" class="logout-form"><button type="submit">Cerrar sesión</button></form>
+      </div>
+    </header>
+
+    @RenderBody()
+
+  </div>
+
+  <script src="~/js/main.js"></script>
+  <script src="~/js/server-ui.js"></script>
+  @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

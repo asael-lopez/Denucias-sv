@@ -1,0 +1,85 @@
+@{ Layout = "_AdminLayout"; ViewData["Active"] = "duplicados"; }
+@{ ViewData["Title"] = "Posibles duplicados"; }
+@section Styles {
+  <link rel="stylesheet" href="~/css/admin-duplicados.css">
+}
+<!-- ===== Contenido ===== -->
+    <main class="admin-main">
+
+      <!-- Encabezado -->
+      <div class="admin-heading">
+        <div>
+          <p class="eyebrow">REVISIÓN DE CASOS</p>
+          <h1 class="title title-1">Posibles duplicados</h1>
+          <p>Compara los reportes y decide si corresponden al mismo incidente.</p>
+        </div>
+        <span class="badge badge-gray"><i></i>3 pendientes</span>
+      </div>
+
+      <!-- Nota de coincidencia -->
+      <div class="comparison-note">
+        <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 18h.01"/></svg>
+        <span><strong>Coincidencia alta (92%)</strong> · Mismo tipo y ubicaciones a menos de 80 metros.</span>
+      </div>
+
+      <!-- Comparación -->
+      <section class="compare-grid">
+
+        <!-- Reporte 1 -->
+        <article class="compare-card card">
+          <div class="compare-tag">REPORTE 1</div>
+          <div class="compare-image">
+            <img class="img-fallback" src="https://images.unsplash.com/photo-1784548789954-655c9a9e1a64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Pavimento reportado">
+          </div>
+          <div class="compare-body">
+            <div>
+              <h2 class="title title-2">SOY-2026-000123</h2>
+              <span class="badge badge-red"><i></i>Súper urgente</span>
+            </div>
+            <dl>
+              <div><dt>Tipo</dt><dd>Bacheo</dd></div>
+              <div><dt>Fecha</dt><dd>Hoy, 10:42 a.m.</dd></div>
+              <div><dt>Ubicación</dt><dd>Final Calle La Campana</dd></div>
+              <div><dt>Distancia</dt><dd>Referencia</dd></div>
+            </dl>
+            <p>Bache grande que dificulta el paso de vehículos.</p>
+          </div>
+        </article>
+
+        <!-- Reporte 2 -->
+        <article class="compare-card card">
+          <div class="compare-tag">REPORTE 2</div>
+          <div class="compare-image alt-image">
+            <img class="img-fallback" src="https://images.unsplash.com/photo-1784548789954-655c9a9e1a64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Pavimento reportado">
+          </div>
+          <div class="compare-body">
+            <div>
+              <h2 class="title title-2">SOY-2026-000118</h2>
+              <span class="badge badge-orange"><i></i>Urgente</span>
+            </div>
+            <dl>
+              <div><dt>Tipo</dt><dd>Bacheo</dd></div>
+              <div><dt>Fecha</dt><dd>Ayer, 4:18 p.m.</dd></div>
+              <div><dt>Ubicación</dt><dd>Calle La Campana, pasaje 4</dd></div>
+              <div><dt>Distancia</dt><dd>78 metros</dd></div>
+            </dl>
+            <p>Hundimiento de pavimento cerca del pasaje 4.</p>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Barra de acciones -->
+      <div class="compare-actions card">
+        <div>
+          <strong>¿Estos reportes corresponden al mismo incidente?</strong>
+          <span>Esta acción quedará registrada en el historial.</span>
+        </div>
+        <a class="btn btn-secondary" href="/admin-dashboard"><span>Mantener separadas</span></a>
+        <a class="btn btn-primary" href="/admin-dashboard">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+          <span>Marcar como duplicado</span>
+        </a>
+      </div>
+
+    </main>

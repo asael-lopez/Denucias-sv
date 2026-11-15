@@ -1,0 +1,22 @@
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Acceso denegado";
+    ViewData["Css"] = "admin-login";
+}
+<div class="admin-login">
+  <div class="admin-login-card card">
+    <div class="heading-block">
+      <p class="eyebrow">403</p>
+      <h1 class="title title-1">Acceso denegado</h1>
+      <p>Tu cuenta no tiene permiso para ver esta página.</p>
+    </div>
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+      <a class="btn btn-primary full" href="/"><span>Ir a mi inicio</span></a>
+    }
+    else
+    {
+      <a class="btn btn-primary full" href="/login"><span>Iniciar sesión</span></a>
+    }
+  </div>
+</div>

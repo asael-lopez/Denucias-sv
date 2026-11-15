@@ -1,0 +1,159 @@
+/* ============================================================
+   admin-reportes.css — Página de estadísticas y gráficas
+   ============================================================ */
+
+/* ===== Selector de período ===== */
+.report-tabs {
+  display: flex;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 4px;
+  gap: 2px;
+}
+.report-tabs button {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 20px;
+  border-radius: 7px;
+  transition: .15s ease;
+  cursor: pointer;
+}
+.report-tabs button:hover { color: var(--navy); }
+.report-tabs button.active {
+  background: var(--white);
+  color: var(--navy);
+  box-shadow: 0 1px 5px rgba(11,42,85,.12);
+}
+
+/* ===== KPIs ===== */
+.report-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.kpi-card {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.kpi-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.kpi-icon--success { background: var(--green-soft); color: var(--green); }
+.kpi-icon--warning { background: var(--orange-soft); color: var(--orange); }
+.kpi-icon--danger  { background: var(--red-soft);    color: var(--red);   }
+
+.kpi-card small { font-size: 11px; color: var(--muted); display: block; }
+.kpi-card strong { font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1.1; display: block; margin: 3px 0; }
+.kpi-card p { font-size: 11px; color: var(--muted); }
+
+/* ===== Tarjetas de gráfica ===== */
+.chart-card { padding: 24px; margin-bottom: 20px; }
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.chart-header p { font-size: 13px; margin-top: 4px; }
+
+.chart-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  align-items: center;
+}
+.chart-legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.chart-legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: block;
+}
+
+.chart-wrap {
+  position: relative;
+  height: 300px;
+}
+.chart-wrap--short { height: 220px; }
+.chart-wrap canvas { display: block; width: 100% !important; height: 100% !important; }
+
+/* ===== Segunda fila ===== */
+.report-row2 {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 20px;
+}
+.report-row2 .chart-card { margin-bottom: 0; }
+
+/* ===== Barras de estado ===== */
+.status-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 4px;
+}
+.status-bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.status-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.status-bar-label span:last-child { color: var(--muted); font-weight: 500; }
+.status-bar-track {
+  height: 10px;
+  background: var(--bg);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.status-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width .5s ease;
+}
+.fill-gray   { background: #c5cdd9; }
+.fill-orange { background: var(--orange); }
+.fill-blue   { background: var(--blue); }
+.fill-green  { background: var(--green); }
+
+/* ===== Responsive ===== */
+@media (max-width: 1100px) {
+  .report-kpis { grid-template-columns: repeat(2, 1fr); }
+  .report-row2 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+  .admin-heading { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .report-kpis { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .kpi-card { padding: 14px; }
+  .kpi-card strong { font-size: 22px; }
+  .chart-card { padding: 16px; }
+  .chart-wrap { height: 220px; }
+  .chart-wrap--short { height: 180px; }
+}

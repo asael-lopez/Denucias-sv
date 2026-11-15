@@ -1,0 +1,11 @@
+/* Ajustes para las partes que ahora son formularios del servidor */
+.logout-form { display: contents; }
+.logout-form button {
+  background: none; border: 0; padding: 0; margin: 0;
+  color: inherit; font: inherit; cursor: pointer; text-align: inherit;
+}
+.user-dropdown .logout-form button.user-dropdown-item { width: 100%; }
+.mobile-admin-menu .logout-form button { display: block; width: 100%; padding: 12px 16px; text-align: left; }
+.sidebar-user .logout-form button { display: inline-flex; align-items: center; opacity: .85; }
+.sidebar-user .logout-form button:hover { opacity: 1; }
+.notice[role] { margin-bottom: 12px; }

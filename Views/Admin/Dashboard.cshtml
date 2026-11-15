@@ -1,0 +1,186 @@
+@{ Layout = "_AdminLayout"; ViewData["Active"] = "dashboard"; }
+@{ ViewData["Title"] = "Panel de control"; }
+@section Styles {
+  <link rel="stylesheet" href="~/css/admin-dashboard.css">
+}
+<!-- ===== Contenido ===== -->
+    <main class="admin-main">
+
+      <!-- Encabezado -->
+      <div class="admin-heading">
+        <div>
+          <p class="eyebrow">JUEVES, 12 DE MARZO</p>
+          <h1 class="title title-1">Panel de control</h1>
+          <p>Resumen y gestión de denuncias ciudadanas.</p>
+        </div>
+        <a href="/admin-crear-denuncia" class="btn btn-primary">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+          <span>Registrar denuncia</span>
+        </a>
+      </div>
+
+      <!-- Tarjetas de estadísticas -->
+      <section class="stats-grid">
+        <article class="stat-card">
+          <span>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h9l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+          </span>
+          <div><small>Total</small><strong data-admin-stat="total">0</strong><p>Denuncias registradas</p></div>
+        </article>
+
+        <article class="stat-card is-danger">
+          <span>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 18h.01"/></svg>
+          </span>
+          <div><small>Súper urgentes</small><strong data-admin-stat="urgent">0</strong><p>Requieren atención</p></div>
+        </article>
+
+        <article class="stat-card is-warning">
+          <span>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
+          </span>
+          <div><small>En proceso</small><strong data-admin-stat="in-progress">0</strong><p>Casos activos</p></div>
+        </article>
+
+        <article class="stat-card is-success">
+          <span>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+          </span>
+          <div><small>Finalizadas</small><strong data-admin-stat="finished">0</strong><p>Con resultado registrado</p></div>
+        </article>
+
+        <article class="stat-card">
+          <span>
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V7l8-4 8 4v14M9 21v-4h6v4"/><path d="M8 9h1M15 9h1M8 13h1M15 13h1"/></svg>
+          </span>
+          <div><small>Enviadas</small><strong data-admin-stat="sent">0</strong><p>A departamentos</p></div>
+        </article>
+      </section>
+
+      <!-- Denuncias recientes -->
+      <section class="admin-list card">
+
+        <div class="list-heading">
+          <div>
+            <h2 class="title title-2">Denuncias recientes</h2>
+            <p data-admin-results-count>Mostrando 0 denuncias</p>
+          </div>
+          <div class="view-toggle">
+            <button type="button" class="active" data-view="list" aria-label="Vista de lista">
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
+            </button>
+            <button type="button" data-view="cards" aria-label="Vista de tarjetas">
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="admin-filters">
+          <div class="filter-search">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <input type="search" data-admin-report-search placeholder="Buscar ticket o ubicación">
+          </div>
+
+          <label class="field">
+            <div class="input-wrap">
+              <select data-admin-priority-filter>
+                <option value="">Todas las prioridades</option>
+                <option>Común</option>
+                <option>Urgente</option>
+                <option>Súper urgente</option>
+              </select>
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+          </label>
+
+          <label class="field">
+            <div class="input-wrap">
+              <select data-admin-status-filter>
+                <option value="">Todos los estados</option>
+                <option>Recibido</option>
+                <option>En proceso</option>
+                <option>Enviado a Alcaldía</option>
+                <option>Finalizado</option>
+              </select>
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+          </label>
+
+          <label class="field">
+            <div class="input-wrap">
+              <select data-admin-type-filter>
+                <option value="">Todos los tipos</option>
+              </select>
+              <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+          </label>
+
+          <label class="date-button">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+            <input type="date" data-admin-date-filter aria-label="Filtrar por fecha">
+          </label>
+
+          <button type="button" class="btn btn-secondary" data-clear-admin-filters aria-label="Limpiar filtros" title="Limpiar filtros">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg>
+            <span>Limpiar</span>
+          </button>
+        </div>
+
+        <!-- Tabla -->
+        <div class="admin-table" data-admin-table>
+          <div class="admin-table-head">
+            <span>Ticket</span>
+            <span>Tipo de incidente</span>
+            <span>Fecha</span>
+            <span>Ubicación</span>
+            <span>Prioridad</span>
+            <span>Estado</span>
+            <span></span>
+          </div>
+
+          <template data-admin-report-template>
+            <article>
+              <div><small class="mobile-label">TICKET</small><strong data-admin-report-ticket></strong></div>
+              <div>
+                <span class="incident-icon">
+                  <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h9l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+                </span>
+                <span data-admin-report-type></span>
+              </div>
+              <div>
+                <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+                <span data-admin-report-date></span>
+              </div>
+              <div>
+                <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0"/><circle cx="12" cy="10" r="2.5"/></svg>
+                <span data-admin-report-location></span>
+              </div>
+              <span class="badge" data-admin-report-priority><i></i><span></span></span>
+              <span class="badge" data-admin-report-status><i></i><span></span></span>
+              <a class="btn btn-secondary" data-admin-report-link><span>Ver</span></a>
+            </article>
+          </template>
+        </div>
+        <p data-admin-reports-empty hidden>No hay denuncias que coincidan con los filtros.</p>
+        <p class="notice notice-error" data-data-error hidden></p>
+
+        <!-- Paginación -->
+        <div class="pagination" hidden>
+          <span>1–5 de 248 denuncias</span>
+          <div>
+            <button type="button" disabled>‹</button>
+            <button type="button" class="active">1</button>
+            <button type="button">2</button>
+            <button type="button">3</button>
+            <button type="button">›</button>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+@section Scripts {
+  <script src="~/js/local-complaints.js"></script>
+}

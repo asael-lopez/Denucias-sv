@@ -1,0 +1,18 @@
+.admin-denuncias-page .back-link {
+  display: inline-flex;
+  margin-bottom: 24px;
+}
+
+.admin-denuncias-page .page-heading {
+  margin-bottom: 30px;
+}
+
+.admin-denuncias-page .create-layout {
+  max-width: none;
+}
+
+@media (max-width: 700px) {
+  .admin-denuncias-page .page-heading {
+    margin-bottom: 24px;
+  }
+}

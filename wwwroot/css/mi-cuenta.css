@@ -1,0 +1,275 @@
+
+
+
+
+
+.cuenta-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+
+.cuenta-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 94px;
+}
+
+
+.perfil-card {
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.perfil-avatar-wrap {
+  position: relative;
+}
+
+.perfil-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+  color: var(--white);
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  box-shadow: 0 6px 20px rgba(11, 42, 85, .22);
+  flex: none;
+}
+
+.perfil-name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.perfil-name strong {
+  font-size: 17px;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.perfil-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.perfil-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.perfil-stats > div {
+  background: var(--white);
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.perfil-stats strong {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.perfil-stats span {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+
+.cuenta-nav {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cuenta-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 14px 18px;
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  border-left: 3px solid transparent;
+  transition: .15s ease;
+}
+.cuenta-nav-item:not(:last-child) {
+  border-bottom: 1px solid var(--line);
+}
+.cuenta-nav-item:hover {
+  color: var(--navy);
+  background: var(--bg);
+}
+.cuenta-nav-item.active {
+  color: var(--navy);
+  border-left-color: var(--blue);
+  background: var(--blue-soft);
+}
+.cuenta-nav-item .icon {
+  color: inherit;
+  opacity: .75;
+}
+
+
+.cuenta-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cuenta-section {
+  padding: 26px 28px;
+}
+
+.cuenta-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.cuenta-section-head p {
+  margin-top: 5px;
+  font-size: 13px;
+}
+
+
+.cuenta-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cuenta-field {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.cuenta-field:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.cuenta-field:first-child {
+  padding-top: 0;
+}
+
+.cuenta-field-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.cuenta-field-icon--success {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.cuenta-field-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cuenta-field-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cuenta-field-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cuenta-field-action {
+  font-size: 13px;
+  flex: none;
+}
+
+
+@media (max-width: 900px) {
+  .cuenta-layout {
+    grid-template-columns: 1fr;
+  }
+  .cuenta-sidebar {
+    position: static;
+  }
+  .perfil-card {
+    flex-direction: row;
+    text-align: left;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+  }
+  .perfil-name { align-items: flex-start; }
+  .perfil-meta { display: none; }
+  .perfil-stats { width: auto; flex: 1; min-width: 200px; }
+  .cuenta-nav { flex-direction: row; }
+  .cuenta-nav-item {
+    flex: 1;
+    justify-content: center;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    font-size: 12px;
+    gap: 7px;
+    padding: 12px 10px;
+  }
+  .cuenta-nav-item:not(:last-child) { border-bottom: 3px solid transparent; border-right: 1px solid var(--line); }
+  .cuenta-nav-item.active { border-bottom-color: var(--blue); border-left: none; }
+}
+
+@media (max-width: 600px) {
+  .cuenta-section { padding: 18px 16px; }
+  .cuenta-section-head { flex-direction: column; align-items: flex-start; }
+  .cuenta-field { gap: 12px; }
+  .cuenta-field-icon { width: 36px; height: 36px; }
+  .cuenta-field-value { font-size: 14px; }
+  .perfil-card { flex-direction: column; align-items: center; text-align: center; }
+  .perfil-name { align-items: center; }
+  .cuenta-nav { flex-direction: column; }
+  .cuenta-nav-item:not(:last-child) { border-right: none; border-bottom: 1px solid var(--line) !important; }
+  .cuenta-nav-item.active { border-bottom-color: var(--line) !important; border-left: 3px solid var(--blue); }
+}

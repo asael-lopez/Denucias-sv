@@ -1,0 +1,122 @@
+@{ Layout = "_AdminLayout"; ViewData["Active"] = "reportes"; }
+@{ ViewData["Title"] = "Reportes"; }
+@section Styles {
+  <link rel="stylesheet" href="~/css/admin-reportes.css">
+}
+<!-- ===== Contenido principal ===== -->
+    <main class="admin-main">
+
+      <!-- Encabezado -->
+      <div class="admin-heading">
+        <div>
+          <p class="eyebrow">ESTADÍSTICAS</p>
+          <h1 class="title title-1">Reportes</h1>
+          <p>Evolución de denuncias ciudadanas por período.</p>
+        </div>
+
+        <!-- Selector de rango -->
+        <div class="report-tabs" role="tablist">
+          <button type="button" class="active" data-period="week" role="tab" aria-selected="true">Semanal</button>
+          <button type="button" data-period="month" role="tab" aria-selected="false">Mensual</button>
+          <button type="button" data-period="year" role="tab" aria-selected="false">Anual</button>
+        </div>
+      </div>
+
+      <!-- KPIs rápidos -->
+      <div class="report-kpis">
+        <article class="kpi-card card">
+          <div class="kpi-icon">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h9l4 4v16H6z"/><path d="M14 2v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+          </div>
+          <div>
+            <small>Total en período</small>
+            <strong data-kpi-total>0</strong>
+            <p data-kpi-total-label>denuncias</p>
+          </div>
+        </article>
+        <article class="kpi-card card">
+          <div class="kpi-icon kpi-icon--success">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+          </div>
+          <div>
+            <small>Finalizadas</small>
+            <strong data-kpi-done>0</strong>
+            <p data-kpi-done-pct>0% del total</p>
+          </div>
+        </article>
+        <article class="kpi-card card">
+          <div class="kpi-icon kpi-icon--warning">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
+          </div>
+          <div>
+            <small>En proceso</small>
+            <strong data-kpi-progress>0</strong>
+            <p data-kpi-progress-pct>0% del total</p>
+          </div>
+        </article>
+        <article class="kpi-card card">
+          <div class="kpi-icon kpi-icon--danger">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 18h.01"/></svg>
+          </div>
+          <div>
+            <small>Súper urgentes</small>
+            <strong data-kpi-urgent>0</strong>
+            <p data-kpi-urgent-pct>0% del total</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- Gráfica principal — barras por período -->
+      <section class="card chart-card" id="chart-main">
+        <div class="chart-header">
+          <div>
+            <h2 class="title title-2" data-chart-title>Denuncias por día</h2>
+            <p data-chart-subtitle>Últimos 7 días</p>
+          </div>
+          <div class="chart-legend">
+            <span><i style="background:var(--blue)"></i>Recibidas</span>
+            <span><i style="background:var(--green)"></i>Finalizadas</span>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="mainChart" aria-label="Gráfica de barras de denuncias" role="img"></canvas>
+        </div>
+      </section>
+
+      <!-- Segunda fila: por tipo + por estado -->
+      <div class="report-row2">
+
+        <!-- Gráfica por tipo de incidente -->
+        <section class="card chart-card" id="chart-types">
+          <div class="chart-header">
+            <div>
+              <h2 class="title title-2">Por tipo de incidente</h2>
+              <p data-type-subtitle>En el período</p>
+            </div>
+          </div>
+          <div class="chart-wrap chart-wrap--short">
+            <canvas id="typeChart" aria-label="Gráfica de barras por tipo" role="img"></canvas>
+          </div>
+        </section>
+
+        <!-- Distribución por estado -->
+        <section class="card chart-card" id="chart-status">
+          <div class="chart-header">
+            <div>
+              <h2 class="title title-2">Por estado</h2>
+              <p>Distribución actual</p>
+            </div>
+          </div>
+          <div class="status-bars" data-status-bars>
+            <!-- Se renderizan dinámicamente -->
+          </div>
+        </section>
+
+      </div>
+
+    </main>
+
+@section Scripts {
+  <script src="~/js/local-complaints.js"></script>
+  <script src="~/js/admin-reportes.js"></script>
+}
