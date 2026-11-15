@@ -1,0 +1,311 @@
+@model CatalogosIndexViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Gestión de Catálogos";
+    ViewData["Active"] = "catalogos";
+    ViewData["BodyClass"] = "admin-catalogos-page";
+}
+@section Styles {
+  <link rel="stylesheet" href="~/css/admin-usuarios.css">
+  <style>
+    .catalog-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border, #e2e8f0);
+      padding-bottom: 8px;
+    }
+    .catalog-tab-btn {
+      background: none;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #64748b;
+      padding: 8px 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .catalog-tab-btn.active, .catalog-tab-btn:hover {
+      background-color: #0b2a55;
+      color: #ffffff;
+    }
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .catalog-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .table-catalog {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .table-catalog th, .table-catalog td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .table-catalog th {
+      background-color: #f8fafc;
+      color: #334155;
+      font-weight: 600;
+    }
+    .badge-active {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #dcfce7;
+      color: #166534;
+    }
+    .badge-inactive {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .btn-sm-action {
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-sm-action:hover {
+      background: #f1f5f9;
+    }
+  </style>
+}
+
+<main class="admin-main">
+  <div class="admin-heading">
+    <div>
+      <p class="eyebrow">CONFIGURACIÓN DEL SISTEMA</p>
+      <h1 class="title title-1">Catálogos Municipales</h1>
+      <p>Administración y parametrización de categorías, dependencias de la alcaldía, prioridades y estados.</p>
+    </div>
+  </div>
+
+  @if (!string.IsNullOrEmpty(Model.Exito))
+  {
+    <p class="notice notice-success" role="alert" style="margin-bottom: 20px;">
+      <span>@Model.Exito</span>
+    </p>
+  }
+  @if (!string.IsNullOrEmpty(Model.Error))
+  {
+    <p class="notice notice-error" role="alert" style="margin-bottom: 20px;">
+      <span>@Model.Error</span>
+    </p>
+  }
+
+  <div class="catalog-tabs">
+    <a href="/admin-catalogos?tab=categorias" class="catalog-tab-btn @(Model.TabActiva == "categorias" ? "active" : "")">Categorías de Incidente</a>
+    <a href="/admin-catalogos?tab=departamentos" class="catalog-tab-btn @(Model.TabActiva == "departamentos" ? "active" : "")">Departamentos Alcaldía</a>
+    <a href="/admin-catalogos?tab=parametros" class="catalog-tab-btn @(Model.TabActiva == "parametros" ? "active" : "")">Estados y Prioridades</a>
+  </div>
+
+  @if (Model.TabActiva == "categorias")
+  {
+    <div class="catalog-grid">
+      <!-- Formulario para agregar categoría -->
+      <section class="card user-form-card">
+        <h2 class="title title-2">Nueva Categoría</h2>
+        <p class="user-form-hint">Clasificación para los reportes de incidentes que ingresan los ciudadanos.</p>
+        <form class="auth-form" asp-controller="Catalogos" asp-action="CrearCategoria" method="post">
+          <label class="field">
+            <span>Nombre de la categoría</span>
+            <div class="input-wrap">
+              <input type="text" name="Nombre" placeholder="Ej. Fuga de agua potable" maxlength="100" required>
+            </div>
+          </label>
+          <label class="field">
+            <span>Descripción informativa</span>
+            <div class="input-wrap">
+              <textarea name="Descripcion" rows="3" placeholder="Detalle sobre el tipo de queja..." maxlength="300" style="width:100%; padding:10px; border-radius:6px; border:1px solid #cbd5e1;"></textarea>
+            </div>
+          </label>
+          <button type="submit" class="btn btn-primary" style="margin-top:12px;">Guardar Categoría</button>
+        </form>
+      </section>
+
+      <!-- Tabla de categorías existentes -->
+      <section class="card" style="padding: 24px;">
+        <h2 class="title title-2" style="margin-bottom:16px;">Categorías Registradas (@Model.Categorias.Count)</h2>
+        <div style="overflow-x:auto;">
+          <table class="table-catalog">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th style="text-align:right;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach (var cat in Model.Categorias)
+              {
+                <tr>
+                  <td><strong>@cat.Nombre</strong></td>
+                  <td>@(cat.Descripcion ?? "—")</td>
+                  <td>
+                    @if (cat.Activo)
+                    {
+                      <span class="badge-active">Activo</span>
+                    }
+                    else
+                    {
+                      <span class="badge-inactive">Inactivo</span>
+                    }
+                  </td>
+                  <td style="text-align:right;">
+                    <form asp-controller="Catalogos" asp-action="ToggleCategoria" asp-route-id="@cat.Id" method="post" style="display:inline;">
+                      <button type="submit" class="btn-sm-action">
+                        @(cat.Activo ? "Desactivar" : "Activar")
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  }
+  else if (Model.TabActiva == "departamentos")
+  {
+    <div class="catalog-grid">
+      <!-- Formulario para agregar departamento -->
+      <section class="card user-form-card">
+        <h2 class="title title-2">Nuevo Departamento</h2>
+        <p class="user-form-hint">Unidad operativa de la municipalidad asignada para atender órdenes de trabajo.</p>
+        <form class="auth-form" asp-controller="Catalogos" asp-action="CrearDepartamento" method="post">
+          <label class="field">
+            <span>Nombre de la dependencia</span>
+            <div class="input-wrap">
+              <input type="text" name="Nombre" placeholder="Ej. Gerencia de Medio Ambiente" maxlength="120" required>
+            </div>
+          </label>
+          <label class="field">
+            <span>Correo institucional de contacto</span>
+            <div class="input-wrap">
+              <input type="email" name="CorreoContacto" placeholder="contacto@soyapango.gob.sv" maxlength="254">
+            </div>
+          </label>
+          <button type="submit" class="btn btn-primary" style="margin-top:12px;">Guardar Departamento</button>
+        </form>
+      </section>
+
+      <!-- Tabla de departamentos -->
+      <section class="card" style="padding: 24px;">
+        <h2 class="title title-2" style="margin-bottom:16px;">Dependencias Registradas (@Model.Departamentos.Count)</h2>
+        <div style="overflow-x:auto;">
+          <table class="table-catalog">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Correo Contacto</th>
+                <th>Estado</th>
+                <th style="text-align:right;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach (var d in Model.Departamentos)
+              {
+                <tr>
+                  <td><strong>@d.Nombre</strong></td>
+                  <td>@(d.CorreoContacto ?? "—")</td>
+                  <td>
+                    @if (d.Activo)
+                    {
+                      <span class="badge-active">Activo</span>
+                    }
+                    else
+                    {
+                      <span class="badge-inactive">Inactivo</span>
+                    }
+                  </td>
+                  <td style="text-align:right;">
+                    <form asp-controller="Catalogos" asp-action="ToggleDepartamento" asp-route-id="@d.Id" method="post" style="display:inline;">
+                      <button type="submit" class="btn-sm-action">
+                        @(d.Activo ? "Desactivar" : "Activar")
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  }
+  else
+  {
+    <!-- Pestaña de Estados y Prioridades -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+      <section class="card" style="padding:24px;">
+        <h2 class="title title-2" style="margin-bottom:12px;">Estados del Ciclo de Vida</h2>
+        <p class="user-form-hint" style="margin-bottom:16px;">Secuencia de progreso de los expedientes de denuncias.</p>
+        <table class="table-catalog">
+          <thead>
+            <tr>
+              <th>Orden</th>
+              <th>Estado</th>
+              <th>Color Indicador</th>
+              <th>¿Es Terminal?</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var e in Model.Estados)
+            {
+              <tr>
+                <td><strong>#@e.Orden</strong></td>
+                <td>@e.Nombre</td>
+                <td><span style="font-weight:600;">@e.ColorIndicador</span></td>
+                <td>@(e.EsFinal ? "Sí (Finalizado)" : "No")</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card" style="padding:24px;">
+        <h2 class="title title-2" style="margin-bottom:12px;">Prioridades y Niveles de Urgencia</h2>
+        <p class="user-form-hint" style="margin-bottom:16px;">Tiempos límite de respuesta establecidos según SLA.</p>
+        <table class="table-catalog">
+          <thead>
+            <tr>
+              <th>Nivel</th>
+              <th>Nombre Prioridad</th>
+              <th>SLA Máximo</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var p in Model.Prioridades)
+            {
+              <tr>
+                <td><strong>Nivel @p.Nivel</strong></td>
+                <td>@p.Nombre</td>
+                <td>@p.TiempoRespuestaHoras horas</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </section>
+    </div>
+  }
+</main>
