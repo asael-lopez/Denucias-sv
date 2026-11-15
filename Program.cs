@@ -20,9 +20,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Repositorios y servicios
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICiudadanoRepository, CiudadanoRepository>();
 builder.Services.AddScoped<IAdministradorRepository, AdministradorRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICatalogoService, CatalogoService>();
 builder.Services.AddScoped<IPasswordHasher<Ciudadano>, PasswordHasher<Ciudadano>>();
 builder.Services.AddScoped<IPasswordHasher<Administrador>, PasswordHasher<Administrador>>();
 

@@ -12,8 +12,13 @@ public class ApplicationDbContext : DbContext
     public DbSet<TokenRecuperacion> TokensRecuperacion => Set<TokenRecuperacion>();
     public DbSet<IntentoAutenticacion> IntentosAutenticacion => Set<IntentoAutenticacion>();
 
-    // P2 y P3: agreguen aquí sus DbSet (Denuncia, etc.) y su clase de configuración
-    // en Data/Configurations; ApplyConfigurationsFromAssembly la detecta sola.
+    // Catálogos (Persona 2)
+    public DbSet<Categoria> Categorias => Set<Categoria>();
+    public DbSet<Departamento> Departamentos => Set<Departamento>();
+    public DbSet<Estado> Estados => Set<Estado>();
+    public DbSet<Prioridad> Prioridades => Set<Prioridad>();
+
+    // P3: agreguen aquí sus DbSet (Denuncia, HistorialDenuncia, EvidenciaDenuncia, DenunciaDuplicada)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
