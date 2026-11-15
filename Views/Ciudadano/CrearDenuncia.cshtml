@@ -1,6 +1,10 @@
 @using SistemasDenuncias.Helpers
-@{ ViewData["Nav"] = "crear"; }
-@{ ViewData["Title"] = "Nueva denuncia"; }
+@inject SistemasDenuncias.Services.ICatalogoService CatalogoService
+@{ 
+    ViewData["Nav"] = "crear"; 
+    ViewData["Title"] = "Nueva denuncia";
+    var categorias = await CatalogoService.ListarCategoriasAsync(soloActivas: true);
+}
 @section Styles {
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="~/css/crear-denuncia.css">
@@ -96,12 +100,10 @@
             <span>Tipo de incidente</span>
             <div class="input-wrap">
               <select data-complaint-type required>
-                <option>Bacheo</option>
-                <option>Desechos sólidos</option>
-                <option>Chapoda y Áreas Verdes</option>
-                <option>Obstrucción de vía</option>
-                <option>Luminaria dañada</option>
-                <option>Otro</option>
+                @foreach (var cat in categorias)
+                {
+                  <option value="@cat.Nombre">@cat.Nombre</option>
+                }
               </select>
               <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
             </div>

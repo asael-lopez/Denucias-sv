@@ -1,5 +1,12 @@
-@{ Layout = "_AdminLayout"; ViewData["Active"] = "denuncias"; }
-@{ ViewData["Title"] = "Detalle de denuncia"; }
+@inject SistemasDenuncias.Services.ICatalogoService CatalogoService
+@{ 
+    Layout = "_AdminLayout"; 
+    ViewData["Active"] = "denuncias"; 
+    ViewData["Title"] = "Detalle de denuncia"; 
+    var prioridades = await CatalogoService.ListarPrioridadesAsync(soloActivas: true);
+    var estados = await CatalogoService.ListarEstadosAsync(soloActivos: true);
+    var departamentos = await CatalogoService.ListarDepartamentosAsync(soloActivos: true);
+}
 @section Styles {
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="~/css/admin-detalle.css">
@@ -104,9 +111,10 @@
               <span>Prioridad</span>
               <div class="input-wrap">
                 <select data-admin-case-priority>
-                  <option>Común</option>
-                  <option>Urgente</option>
-                  <option>Súper urgente</option>
+                  @foreach (var p in prioridades)
+                  {
+                    <option value="@p.Nombre">@p.Nombre</option>
+                  }
                 </select>
                 <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
               </div>
@@ -116,10 +124,10 @@
               <span>Estado</span>
               <div class="input-wrap">
                 <select data-admin-case-status>
-                  <option>Recibido</option>
-                  <option>En proceso</option>
-                  <option>Enviado a Alcaldía</option>
-                  <option>Finalizado</option>
+                  @foreach (var e in estados)
+                  {
+                    <option value="@e.Nombre">@e.Nombre</option>
+                  }
                 </select>
                 <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
               </div>
@@ -132,10 +140,10 @@
               <div class="input-wrap">
                 <select data-admin-case-department>
                   <option value="">Sin asignar</option>
-                  <option>Mantenimiento Vial</option>
-                  <option>Desechos sólidos</option>
-                  <option>Alumbrado público</option>
-                  <option>Chapoda y Áreas Verdes</option>
+                  @foreach (var d in departamentos)
+                  {
+                    <option value="@d.Nombre">@d.Nombre</option>
+                  }
                 </select>
                 <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
               </div>

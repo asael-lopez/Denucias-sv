@@ -1,5 +1,12 @@
-@{ Layout = "_AdminLayout"; ViewData["Active"] = "dashboard"; }
-@{ ViewData["Title"] = "Panel de control"; }
+@inject SistemasDenuncias.Services.ICatalogoService CatalogoService
+@{ 
+    Layout = "_AdminLayout"; 
+    ViewData["Active"] = "dashboard"; 
+    ViewData["Title"] = "Panel de control"; 
+    var prioridades = await CatalogoService.ListarPrioridadesAsync(soloActivas: true);
+    var estados = await CatalogoService.ListarEstadosAsync(soloActivos: true);
+    var categorias = await CatalogoService.ListarCategoriasAsync(soloActivas: true);
+}
 @section Styles {
   <link rel="stylesheet" href="~/css/admin-dashboard.css">
 }
@@ -86,9 +93,10 @@
             <div class="input-wrap">
               <select data-admin-priority-filter>
                 <option value="">Todas las prioridades</option>
-                <option>Común</option>
-                <option>Urgente</option>
-                <option>Súper urgente</option>
+                @foreach (var p in prioridades)
+                {
+                  <option value="@p.Nombre">@p.Nombre</option>
+                }
               </select>
               <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
             </div>
@@ -98,10 +106,10 @@
             <div class="input-wrap">
               <select data-admin-status-filter>
                 <option value="">Todos los estados</option>
-                <option>Recibido</option>
-                <option>En proceso</option>
-                <option>Enviado a Alcaldía</option>
-                <option>Finalizado</option>
+                @foreach (var e in estados)
+                {
+                  <option value="@e.Nombre">@e.Nombre</option>
+                }
               </select>
               <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
             </div>
@@ -111,6 +119,10 @@
             <div class="input-wrap">
               <select data-admin-type-filter>
                 <option value="">Todos los tipos</option>
+                @foreach (var c in categorias)
+                {
+                  <option value="@c.Nombre">@c.Nombre</option>
+                }
               </select>
               <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
             </div>
